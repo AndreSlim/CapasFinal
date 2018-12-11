@@ -106,7 +106,7 @@ var tableA = $('#tableAlbums').DataTable(
                 {
                    sortable: false,
                    "render": function ( data, type, full, meta ) {
-                       return '<div class="ui buttons"><button class="ui positive button" onclick="editA('+full.album_id+')"  > <i class="icon edit"></i> </button> <div class="or" data-text="O"></div> <button class="ui negative button" onclick="deleteA('+full.album_id+')"><i class="icon erase"></i> </button> </div>';
+                       return '<div class="ui buttons"><button class="ui positive button" onclick="editA('+full.id+')"  > <i class="icon edit"></i> </button> <div class="or" data-text="O"></div> <button class="ui negative button" onclick="deleteA('+full.id+')"><i class="icon erase"></i> </button> </div>';
                    }
                }
               ],
@@ -192,6 +192,7 @@ function deleteA(idAlbum)
         },
         onApprove : function() {
           //Open call ajax
+alert(idAlbum);
           $.ajax({
             type: "POST",
             url: "<?php echo $this->url->get('Albums/delete') ?>",

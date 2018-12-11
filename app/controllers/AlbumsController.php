@@ -93,6 +93,28 @@ class AlbumsController extends \Phalcon\Mvc\Controller
 
     public function deleteAction()
     {
+            $this->view->disable();
+      if($this->request->isAjax())
+      {
+
+          $id = $this->request->getPost("id");
+          $data = json_encode(array("id"=>$id));
+
+    $url = "http://localhost/discoteca/servicioREST/api/albums/delete/" . $id;
+    $client = curl_init();
+    curl_setopt($client, CURLOPT_URL, $url);
+    curl_setopt($client, CURLOPT_CUSTOMREQUEST, "DELETE");
+    curl_setopt($client, CURLOPT_POSTFIELDS, $data);
+    curl_setopt($client, CURLOPT_RETURNTRANSFER, true);
+    $result = curl_exec($client);
+    $result = json_decode($result);
+    curl_close($client);
+
+        $this->response->setJsonContent(["data"=>$id]);
+        $this->response->setStatusCode(200, "OK");
+        $this->response->send();
+      /*
+      
       $this->view->disable();
       if($this->request->isAjax())
       {
@@ -104,6 +126,7 @@ class AlbumsController extends \Phalcon\Mvc\Controller
         $this->response->setJsonContent(["data"=>$id]);
         $this->response->setStatusCode(200, "OK");
         $this->response->send();
+       */
       }
     }
 

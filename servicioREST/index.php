@@ -229,9 +229,9 @@ $app->put(
 
 // Deletes genres based on primary key
 $app->delete(	 
-	"/api/genres/delete/{id:[0-9]+}",
+	"/api/albums/delete/{id:[0-9]+}",
 	function ($id) use($app) {
-		$phql		= "DELETE FROM Store\\Discs\\Genres WHERE id = :id:";
+		$phql		= "DELETE FROM Store\\Discs\\Albums WHERE id = :id:";
 		$status = $app->modelsManager->executeQuery($phql,["id"=>$id]);				
 		
 		$response = new Response();
