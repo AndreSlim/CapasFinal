@@ -155,16 +155,17 @@ function save()
 //Search byId and Show Modal
 function editG(id)
 {
-alert(id); 
+//alert(id); 
   $.ajax({
         method: "POST",
           url: "<?php echo $this->url->get('genres/getById') ?>",
         data: { id:id }
       }).done(function( data )
         {
-          $('#nameG').val(data.genre.name);
+//console.log(data.genre[0].name);
+          $('#nameG').val(data.genre[0].name);
           $('#option').val('edit');
-          $('#idEdit').val(data.genre.id);
+          $('#idEdit').val(data.id);
           showModalAdd();
         });
 }

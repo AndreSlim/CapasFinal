@@ -167,16 +167,16 @@ function showModalAdd(){
 
 function editA(id)
 {
-alert(id);
+//alert(id);
   $.ajax({
         method: "POST",
           url: "<?php echo $this->url->get('Albums/getById') ?>",
         data: { id:id }
       }).done(function( data )
         {
-          $('#nameA').val(data.album.name);
-          $('#autor').val(data.album.author);
-          $('#genre_id').val(data.album.genre_id).change();
+          $('#nameA').val(data.album[0].name);
+          $('#autor').val(data.album[0].author);
+          $('#genre_id').val(data.album[0].genre_id).change();
           $('#option').val('edit');
           $('#idEdit').val(data.album.id);
           showModalAdd();
