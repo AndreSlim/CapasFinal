@@ -192,7 +192,7 @@ function deleteA(idAlbum)
         },
         onApprove : function() {
           //Open call ajax
-alert(idAlbum);
+//alert(idAlbum);
           $.ajax({
             type: "POST",
             url: "<?php echo $this->url->get('Albums/delete') ?>",
