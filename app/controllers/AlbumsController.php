@@ -50,8 +50,8 @@ class AlbumsController extends \Phalcon\Mvc\Controller
     {
       $this->view->disable();
       
-      if($this->request->isAjax())
-      {
+      /*
+      if($this->request->isAjax()){
         $option = $this->request->getPost("option");
         if($option === "edit")
         {
@@ -61,9 +61,23 @@ class AlbumsController extends \Phalcon\Mvc\Controller
         {
           $album   = new Albums();
         }
+       */
+      
         $name = $this->request->getPost("nameA");
         $author = $this->request->getPost("autor");
         $genre_id = $this->request->getPost("genre_id");
+
+        $data = json_encode(array("name" => $name, "author" => $author, "genre" => $genre_id));
+
+          $url = "http://localhost/discoteca/servicioREST/api/albums/add";
+          $client = curl_init($url);
+          curl_setopt($client, CURLOPT_POST, 1);
+          curl_setopt($client, CURLOPT_POSTFIELDS, $data);
+          $response = curl_exec($client);
+          curl_close($client);
+          $this->response->redirect("albums");
+
+      /*
 
         $album->name = $name ;
         $album->author=$author;
@@ -74,6 +88,7 @@ class AlbumsController extends \Phalcon\Mvc\Controller
         $this->response->setStatusCode(200, "OK");
         $this->response->send();
       }
+       */
     }
 
     public function deleteAction()

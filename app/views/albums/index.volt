@@ -175,7 +175,7 @@ function editA(id)
         {
           $('#nameA').val(data.album.name);
           $('#autor').val(data.album.author);
-          $('#genre_id').val(data.album.genre_id).change();;
+          $('#genre_id').val(data.album.genre_id).change();
           $('#option').val('edit');
           $('#idEdit').val(data.album.id);
           showModalAdd();
