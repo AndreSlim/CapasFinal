@@ -135,11 +135,25 @@ class AlbumsController extends \Phalcon\Mvc\Controller
       $this->view->disable();
       if($this->request->isAjax())
       {
+        
         $id = $this->request->getPost('id');
+        
+          $url = "http://localhost/discoteca/servicioREST/api/albums/" . $id;
+          $client=curl_init($url);
+          curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);
+          $response = curl_exec($client);
+          $result = json_decode($response);
+
+          $this->response->setJsonContent(["album"=>$result]);
+          $this->response->setStatusCode(200, "OK");
+          $this->response->send();
+         //$this->view->generos =  $result;
+        /*
         $album = Albums::findFirst($id);
         $this->response->setJsonContent(["album"=>$album]);
         $this->response->setStatusCode(200, "OK");
         $this->response->send();
+         */
       }
     }
 

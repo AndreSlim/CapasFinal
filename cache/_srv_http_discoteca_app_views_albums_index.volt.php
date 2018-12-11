@@ -167,6 +167,7 @@ function showModalAdd(){
 
 function editA(id)
 {
+alert(id);
   $.ajax({
         method: "POST",
           url: "<?php echo $this->url->get('Albums/getById') ?>",

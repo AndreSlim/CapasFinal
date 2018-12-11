@@ -179,9 +179,9 @@ $app->get(
 
 // Retrieves genres based on primary key
 $app->get(
-	"/api/genres/{id:[0-9]+}",
+	"/api/albums/{id:[0-9]+}",
 	function ($id) use ($app) {		
-				$phql		= "SELECT * FROM Store\\Discs\\Genres WHERE id=:id: ORDER BY name";
+				$phql		= "SELECT * FROM Store\\Discs\\Albums WHERE id=:id: ORDER BY name";
 				$genre = $app->modelsManager->executeQuery($phql,["id"=>$id]);				
 				echo json_encode($genre);
 	}

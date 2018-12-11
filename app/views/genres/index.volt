@@ -155,7 +155,7 @@ function save()
 //Search byId and Show Modal
 function editG(id)
 {
- //alert(formulario); 
+alert(id); 
   $.ajax({
         method: "POST",
           url: "<?php echo $this->url->get('genres/getById') ?>",

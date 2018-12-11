@@ -12,7 +12,7 @@ class GenresController extends \Phalcon\Mvc\Controller
     {
 
           $this->view->disable();
-          
+
           $url = "http://localhost/discoteca/servicioREST/api/genres";
           $client=curl_init($url);
           curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);
@@ -103,10 +103,24 @@ class GenresController extends \Phalcon\Mvc\Controller
       if($this->request->isAjax())
       {
         $id = $this->request->getPost('id');
+        
+          $url = "http://localhost/discoteca/servicioREST/api/genres/" . $id;
+          $client=curl_init($url);
+          curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);
+          $response = curl_exec($client);
+          $result = json_decode($response);
+
+          $this->response->setJsonContent(["genre"=>$result]);
+          $this->response->setStatusCode(200, "OK");
+          $this->response->send();
+         //$this->view->generos =  $result;
+
+        /*
         $genre = Genres::findFirst($id);
         $this->response->setJsonContent(["genre"=>$genre]);
         $this->response->setStatusCode(200, "OK");
         $this->response->send();
+         */
       }
     }
 
