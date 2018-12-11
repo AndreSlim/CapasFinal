@@ -5,7 +5,14 @@ class AlbumsController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-         //$this->view->generos =  Genres::find();
+          // Obteniendo los generos para mostrar en la lista
+          $url = "http://localhost/discoteca/servicioREST/api/genres";
+          $client=curl_init($url);
+          curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);
+          $response = curl_exec($client);
+          $result = json_decode($response);
+
+         $this->view->generos =  $result;
     }
 
     public function datatableAction()
@@ -42,6 +49,7 @@ class AlbumsController extends \Phalcon\Mvc\Controller
     public function saveAction()
     {
       $this->view->disable();
+      
       if($this->request->isAjax())
       {
         $option = $this->request->getPost("option");
