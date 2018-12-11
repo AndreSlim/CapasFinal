@@ -12,7 +12,7 @@ class GenresController extends \Phalcon\Mvc\Controller
     {
 
           $this->view->disable();
-
+          
           $url = "http://localhost/discoteca/servicioREST/api/genres";
           $client=curl_init($url);
           curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);

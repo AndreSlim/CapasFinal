@@ -5,11 +5,25 @@ class AlbumsController extends \Phalcon\Mvc\Controller
 
     public function indexAction()
     {
-         $this->view->generos =  Genres::find();
+         //$this->view->generos =  Genres::find();
     }
 
     public function datatableAction()
     {
+                $this->view->disable();
+
+          $url = "http://localhost/discoteca/servicioREST/api/albums";
+          $client=curl_init($url);
+          curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);
+          $response = curl_exec($client);
+          $result = json_decode($response);
+          
+          curl_close($client);
+
+          $this->response->setJsonContent(["data"=>$result]);
+          $this->response->setStatusCode(200, "OK");
+          $this->response->send();
+      /*
       $this->view->disable();
       $albums = $this->modelsManager->createBuilder()
               ->from(['a'=>'Albums'])
@@ -18,10 +32,11 @@ class AlbumsController extends \Phalcon\Mvc\Controller
               ->getQuery()
               ->execute();
 
-    /*  $albums = Albums::find();*/
+    //  $albums = Albums::find();
       $this->response->setJsonContent(["data"=>$albums]);
       $this->response->setStatusCode(200, "OK");
       $this->response->send();
+       */
     }
 
     public function saveAction()

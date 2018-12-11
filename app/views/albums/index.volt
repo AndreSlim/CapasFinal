@@ -99,9 +99,9 @@ var tableA = $('#tableAlbums').DataTable(
                 "type": "POST",
             },
             columns: [
-                {data: "alname" },
+                {data: "name" },
                 {data:"author"},
-                {data:"genname"},
+                {data:"genre"},
 
                 {
                    sortable: false,
