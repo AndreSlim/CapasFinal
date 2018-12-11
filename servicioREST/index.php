@@ -144,8 +144,16 @@ $app->delete(
 $app->get(
 	"/api/albums",
 		function () use ($app) {
-			    $phql		= "SELECT * FROM Store\\Discs\\Albums ORDER BY name";
-				$albums = $app->modelsManager->executeQuery($phql);
+			    //$phql		= "SELECT * FROM Store\\Discs\\Albums ORDER BY name";
+			    //$phql = "SELECT 'a.id', 'a.name', 'a.author', 'g.name' as genre FROM Store\\Discs\\Albums a INNER JOIN Store\\Discs\\Genres g ON 'a.genre_id' = 'g.id' ORDER BY name";
+				//$albums = $app->modelsManager->executeQuery($phql);
+				      $albums = $this->modelsManager->createBuilder()
+              ->from(['a'=>'Store\\Discs\\Albums'])
+              ->join('Store\\Discs\\Genres','a.genre_id = g.id','g')
+              ->columns(['a.id','a.name','a.author','g.name as genre_id'])
+              ->getQuery()
+              ->execute();
+
 				$data = [];
 				foreach ($albums as $album)
 				{
@@ -179,21 +187,24 @@ $app->get(
 	}
 );
 
-// Adds a new genre
+// Adds a new album
 $app->post(
-		"/api/genres/add",
+		"/api/albums/add",
 		function () use($app){
-			$genre = $app->request->getJsonRawBody();
-			$phql = "INSERT INTO Store\\Discs\\Genres (name) VALUES (:name:)";
-			$status = $app->modelsManager->executeQuery($phql,[	"name" => $genre->name]);
+			$album = $app->request->getJsonRawBody();
+			$phql = "INSERT INTO Store\\Discs\\Albums (name,author,genre_id) VALUES (:name:,:author:,:genre_id:)";
+			$status = $app->modelsManager->executeQuery($phql,[	"name" => $album->name,
+																"author" => $album->author,
+																"genre_id" => $album->genre
+																]);
 			// Create a response
 			$response = new Response();
 			// Check if the insertion was successful
 			if ($status->success() === true) 
 			{	// Change the HTTP status
 				$response->setStatusCode(201, "Created");
-				$genre->id = $status->getModel()->id;
-				$response->setJsonContent(["status" => "OK","data"=>$genre,]);
+				$album->id = $status->getModel()->id;
+				$response->setJsonContent(["status" => "OK","data"=>$album,]);
 			} else 
 			{	// Change the HTTP status
 				$response->setStatusCode(409, "Conflict");
